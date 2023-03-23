@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { addUser, getAllUser } from "../Store/Actions/UserAction";
+import { addUser } from "../Store/Actions/UserAction";
 const style = {
   position: "absolute",
   top: "30%",
@@ -20,6 +20,7 @@ const style = {
   maxWidth: "400px",
   bgcolor: "background.paper",
   boxShadow: 24,
+  borderRadius: 2,
   p: 4,
 };
 export default function FormUser({ open, handleClose, setOpen }) {

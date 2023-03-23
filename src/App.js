@@ -32,6 +32,7 @@ function App() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const handleExportPDF = () => {};
   return (
     <Box className={classes.dataTable}>
       <Grid container>
@@ -45,7 +46,9 @@ function App() {
               <Button variant="contained" onClick={handleOpen}>
                 Add User
               </Button>
-              <Button variant="outlined">Export</Button>
+              <Button variant="outlined" onClick={handleExportPDF}>
+                Export
+              </Button>
             </Stack>
             <FormUser open={open} handleClose={handleClose} setOpen={setOpen} />
           </Box>

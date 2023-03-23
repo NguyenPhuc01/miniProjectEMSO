@@ -1,3 +1,5 @@
-export const GET_ALL_USER = "GET_ALL_USER";
+export const GET_ALL_USER_SUCCESS = "GET_ALL_USER_SUCCESS";
+export const GET_ALL_USER_REQUESS = "GET_ALL_USER_REQUESS";
+export const GET_ALL_USER_FAIL = "GET_ALL_USER_FAIL";
 export const DELETE_USER = "DELETE_USER";
 export const ADD_USER = "ADD_USER";

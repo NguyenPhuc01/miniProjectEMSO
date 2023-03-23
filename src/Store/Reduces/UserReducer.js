@@ -5,10 +5,19 @@ const initialState = {
 
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_ALL_USER":
+    case "GET_ALL_USER_SUCCESS":
       return {
         ...state,
         allUser: action.payload,
+        loading: false,
+      };
+    case "GET_ALL_USER_REQUESS":
+      return {
+        loading: true,
+      };
+    case "GET_ALL_USER_FAIL":
+      return {
+        loading: false,
       };
     case "DELETE_USER":
       return {

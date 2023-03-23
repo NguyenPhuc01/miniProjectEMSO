@@ -1,20 +1,30 @@
 import axios from "axios";
-import { ADD_USER, DELETE_USER, GET_ALL_USER } from "../Types/TypesUser";
+import {
+  ADD_USER,
+  DELETE_USER,
+  GET_ALL_USER_FAIL,
+  GET_ALL_USER_REQUESS,
+  GET_ALL_USER_SUCCESS,
+} from "../Types/TypesUser";
 const token =
   "c3d6ab434a43fd0b0dc736f5004307af7176c1810279232498f53104738b2045";
 const baseUrl = "https://gorest.co.in/public/v2/users";
 
 export const getAllUser = () => {
   return async (dispatch) => {
+    dispatch({
+      type: GET_ALL_USER_REQUESS,
+    });
     try {
-      const response = await axios.get(`https://gorest.co.in/public/v2/users`);
+      const response = await axios.get(`${baseUrl}?page=1&per_page=100`);
       dispatch({
-        type: GET_ALL_USER,
+        type: GET_ALL_USER_SUCCESS,
         payload: response.data,
       });
       return response.data;
     } catch (error) {
       dispatch({
+        type: GET_ALL_USER_FAIL,
         payload: error,
       });
     }
