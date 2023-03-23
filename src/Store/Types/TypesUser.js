@@ -3,3 +3,4 @@ export const GET_ALL_USER_REQUESS = "GET_ALL_USER_REQUESS";
 export const GET_ALL_USER_FAIL = "GET_ALL_USER_FAIL";
 export const DELETE_USER = "DELETE_USER";
 export const ADD_USER = "ADD_USER";
+export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";

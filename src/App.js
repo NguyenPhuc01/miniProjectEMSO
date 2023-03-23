@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import "./App.css";
 import { makeStyles } from "@mui/styles";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getAllUser } from "./Store/Actions/UserAction";
 import TableDataUser from "./Component/TableDataUser";
@@ -24,14 +24,17 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    dispatch(getAllUser());
-  }, [dispatch]);
+    dispatch(getAllUser(currentPage));
+  }, [dispatch, currentPage]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  const handleChange = (event, page) => {
+    setCurrentPage(page);
+  };
   const handleExportPDF = () => {};
   return (
     <Box className={classes.dataTable}>
@@ -39,7 +42,9 @@ function App() {
         <Grid item xs={0} sm={1}></Grid>
         <Grid item xs={12} sm={10}>
           <Box>
-            <Typography variant="h4">Data User</Typography>
+            <Typography variant="h4" sx={{ padding: 4 }}>
+              Data User
+            </Typography>
           </Box>
           <Box className={classes.btnFunc}>
             <Stack spacing={2} direction="row">
@@ -54,7 +59,7 @@ function App() {
           </Box>
 
           <Box className={classes.tableDataUser}>
-            <TableDataUser />
+            <TableDataUser handleChange={handleChange} />
           </Box>
         </Grid>
         <Grid item xs={0} sm={1}></Grid>

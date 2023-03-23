@@ -29,6 +29,11 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         allUser: [action.payload, ...state.allUser],
       };
+    case "UPDATE_USER_SUCCESS":
+      return {
+        ...state,
+        // allUser: [action.payload, ...state.allUser],
+      };
 
     default:
       return state;
