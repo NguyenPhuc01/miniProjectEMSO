@@ -27,8 +27,13 @@ import ModalChangeUser from "./ModalChangeUser";
 export default function TableDataUser({ handleChange }) {
   const [open, setOpen] = React.useState(false);
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
-  const [dataUpdateUser, setDataUpdateUser] = useState("");
-
+  // const [dataUpdateUser, setDataUpdateUser] = useState("");
+  const [inputs, setInputs] = useState({
+    name: "",
+    gender: "",
+    email: "",
+    status: "",
+  });
   const dispatch = useDispatch();
   const [getId, setGetId] = useState("");
 
@@ -89,8 +94,14 @@ export default function TableDataUser({ handleChange }) {
                     <Button
                       onClick={() => {
                         // handleUpdateUser(row.id);
+                        setInputs({
+                          id: row.id,
+                          name: row.name,
+                          gender: row.gender,
+                          email: row.email,
+                          status: row.status,
+                        });
                         setOpenModalUpdate(true);
-                        setDataUpdateUser(row);
                       }}
                     >
                       <UpdateIcon />
@@ -113,7 +124,8 @@ export default function TableDataUser({ handleChange }) {
           openModalUpdate={openModalUpdate}
           setOpenModalUpdate={setOpenModalUpdate}
           handleCloseModalUpdate={handleCloseModalUpdate}
-          dataUpdateUser={dataUpdateUser}
+          inputs={inputs}
+          setInputs={setInputs}
         />
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle id="alert-dialog-title">

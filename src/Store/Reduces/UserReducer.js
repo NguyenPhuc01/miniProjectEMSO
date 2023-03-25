@@ -1,6 +1,9 @@
 const initialState = {
   allUser: [],
   loading: false,
+  loadingUpdate: false,
+  loadingAddUser: false,
+  errAddUSer: "",
 };
 
 const UserReducer = (state = initialState, action) => {
@@ -24,15 +27,46 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         allUser: state.allUser.filter((e) => e.id !== action.payload),
       };
-    case "ADD_USER":
+    case "ADD_USER_SUCCESS":
       return {
         ...state,
         allUser: [action.payload, ...state.allUser],
+        loadingAddUser: false,
       };
-    case "UPDATE_USER_SUCCESS":
+    case "ADD_USER_REQUEST":
       return {
         ...state,
-        // allUser: [action.payload, ...state.allUser],
+        loadingAddUser: true,
+      };
+    case "ADD_USER_FAIL":
+      // console.log("err", action.payload.message);
+      return {
+        ...state,
+        errAddUSer: action.payload.message,
+        loadingAddUser: false,
+      };
+    case "UPDATE_USER_SUCCESS":
+      const useUpdate = state.allUser.map((user) => {
+        if (user.id === action.payload.id) {
+          return action.payload;
+        } else {
+          return user;
+        }
+      });
+      return {
+        ...state,
+        allUser: useUpdate,
+        loadingUpdate: false,
+      };
+    case "UPDATE_USER_REQUEST":
+      return {
+        ...state,
+        loadingUpdate: true,
+      };
+    case "UPDATE_USER_FAIL":
+      return {
+        ...state,
+        loadingUpdate: false,
       };
 
     default:

@@ -8,8 +8,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../Store/Actions/UserAction";
+import { LoadingButton } from "@mui/lab";
+import UpdateIcon from "@mui/icons-material/Update";
 const style = {
   position: "absolute",
   top: "30%",
@@ -26,20 +29,11 @@ export default function ModalChangeUser({
   openModalUpdate,
   setOpenModalUpdate,
   handleCloseModalUpdate,
-  dataUpdateUser,
+  inputs,
+  setInputs,
 }) {
-  console.log(
-    "🚀 ~ file: ModalChangeUser.js:31 ~ dataUpdateUser:",
-    dataUpdateUser
-  );
-  const [inputs, setInputs] = useState({
-    name: "",
-    gender: "",
-    email: "",
-    status: "",
-  });
-
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const isLoadingUpdate = useSelector((state) => state.User?.loadingUpdate);
 
   const handleOnchange = (e) => {
     setInputs((prev) => ({
@@ -49,19 +43,24 @@ export default function ModalChangeUser({
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    dispatch(updateUser(inputs.id, inputs));
     setInputs({ name: "", gender: "", email: "", status: "" });
   };
+
+  useEffect(() => {
+    if (!isLoadingUpdate) setOpenModalUpdate(false);
+  }, [isLoadingUpdate, setOpenModalUpdate]);
   return (
     <Modal open={openModalUpdate} onClose={handleCloseModalUpdate}>
       <Box sx={style}>
         <Typography
+          sx={{ paddingBottom: 3 }}
           id="modal-modal-title"
           variant="h6"
           component="h2"
-          gutterBottom
+          align="center"
         >
-          Add User
+          Update User
         </Typography>
         <form onSubmit={(data) => handleSubmit(data)}>
           <Grid container spacing={1}>
@@ -72,7 +71,6 @@ export default function ModalChangeUser({
                 variant="outlined"
                 fullWidth
                 name="name"
-                required
                 value={inputs.name}
                 onChange={handleOnchange}
               />
@@ -84,7 +82,6 @@ export default function ModalChangeUser({
                 label="Email"
                 variant="outlined"
                 fullWidth
-                required
                 value={inputs.email}
                 name="email"
                 onChange={handleOnchange}
@@ -97,7 +94,6 @@ export default function ModalChangeUser({
                 label="gender"
                 fullWidth
                 onChange={handleOnchange}
-                required
               >
                 <MenuItem value="female">female</MenuItem>
                 <MenuItem value="male">male</MenuItem>
@@ -112,7 +108,6 @@ export default function ModalChangeUser({
                 label="active"
                 fullWidth
                 onChange={handleOnchange}
-                required
               >
                 <MenuItem value="active">active</MenuItem>
                 <MenuItem value="inactive">inactive</MenuItem>
@@ -120,15 +115,18 @@ export default function ModalChangeUser({
             </Grid>
 
             <Grid item xs={12}>
-              <Button
+              <LoadingButton
+                loading={isLoadingUpdate}
+                startIcon={<UpdateIcon />}
+                loadingPosition="start"
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
                 sx={{ marginTop: 4 }}
               >
-                Add
-              </Button>
+                Update
+              </LoadingButton>
             </Grid>
           </Grid>
         </form>

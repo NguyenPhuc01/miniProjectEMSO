@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -6,10 +6,13 @@ import {
   MenuItem,
   Modal,
   Select,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../Store/Actions/UserAction";
 const style = {
   position: "absolute",
@@ -31,7 +34,9 @@ export default function FormUser({ open, handleClose, setOpen }) {
     status: "",
   });
   const dispatch = useDispatch();
-
+  const isLoadingAddUser = useSelector((state) => state.User?.loadingAddUser);
+  const errAddUser = useSelector((state) => state.User?.errAddUSer);
+  console.log("🚀 ~ file: FormUser.js:39 ~ FormUser ~ errAddUser:", errAddUser);
   const handleOnchange = (e) => {
     setInputs((prev) => ({
       ...prev,
@@ -41,9 +46,20 @@ export default function FormUser({ open, handleClose, setOpen }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(addUser(inputs));
-    setOpen(false);
+
     setInputs({ name: "", gender: "", email: "", status: "" });
   };
+  useEffect(() => {
+    if (!!isLoadingAddUser) {
+      setOpen(false);
+    }
+  }, [isLoadingAddUser, setOpen]);
+
+  useEffect(() => {
+    if (errAddUser !== undefined && errAddUser !== "") {
+      alert("loi");
+    }
+  }, [errAddUser]);
   return (
     <div>
       <Modal open={open} onClose={handleClose}>
@@ -52,6 +68,7 @@ export default function FormUser({ open, handleClose, setOpen }) {
             id="modal-modal-title"
             variant="h6"
             component="h2"
+            align="center"
             gutterBottom
           >
             Add User
@@ -113,7 +130,10 @@ export default function FormUser({ open, handleClose, setOpen }) {
               </Grid>
 
               <Grid item xs={12}>
-                <Button
+                <LoadingButton
+                  loading={isLoadingAddUser}
+                  startIcon={<GroupAddIcon />}
+                  loadingPosition="start"
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -121,7 +141,7 @@ export default function FormUser({ open, handleClose, setOpen }) {
                   sx={{ marginTop: 4 }}
                 >
                   Add
-                </Button>
+                </LoadingButton>
               </Grid>
             </Grid>
           </form>

@@ -1,10 +1,15 @@
 import axios from "axios";
 import {
   ADD_USER,
+  ADD_USER_FAIL,
+  ADD_USER_REQUEST,
+  ADD_USER_SUCCESS,
   DELETE_USER,
   GET_ALL_USER_FAIL,
   GET_ALL_USER_REQUESS,
   GET_ALL_USER_SUCCESS,
+  UPDATE_USER_FAIL,
+  UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
 } from "../Types/TypesUser";
 const token =
@@ -47,6 +52,9 @@ export const DeleteUSer = (id) => async (dispatch) => {
   }
 };
 export const addUser = (newUser) => async (dispatch) => {
+  dispatch({
+    type: ADD_USER_REQUEST,
+  });
   try {
     const userAdd = await axios.post(`${baseUrl}`, newUser, {
       headers: {
@@ -54,22 +62,35 @@ export const addUser = (newUser) => async (dispatch) => {
       },
     });
     dispatch({
-      type: ADD_USER,
+      type: ADD_USER_SUCCESS,
       payload: userAdd.data,
     });
   } catch (error) {
-    console.log({ error });
+    dispatch({
+      type: ADD_USER_FAIL,
+      payload: error,
+    });
   }
 };
-export const updateUser = (id, newUser) => async (dispatch) => {
+export const updateUser = (id, userUpdate) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_USER_REQUEST,
+  });
   try {
-    const userUpdate = await axios.put(`${baseUrl}/${id}`, newUser);
+    const resultUserUpdate = await axios.patch(`${baseUrl}/${id}`, userUpdate, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     dispatch({
       type: UPDATE_USER_SUCCESS,
-      payload: userUpdate.data,
+      payload: resultUserUpdate.data,
     });
   } catch (error) {
-    console.log("🚀 ~ file: UserAction.js:73 ~ updateUser ~ error:", error);
+    dispatch({
+      type: UPDATE_USER_FAIL,
+      payload: error,
+    });
   }
 };
