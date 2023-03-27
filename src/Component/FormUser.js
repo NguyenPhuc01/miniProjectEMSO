@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Box,
-  Button,
   Grid,
   MenuItem,
   Modal,
@@ -27,6 +27,7 @@ const style = {
   p: 4,
 };
 export default function FormUser({ open, handleClose, setOpen }) {
+  const [openErr, setOpenErr] = React.useState(false);
   const [inputs, setInputs] = useState({
     name: "",
     gender: "",
@@ -57,9 +58,17 @@ export default function FormUser({ open, handleClose, setOpen }) {
 
   useEffect(() => {
     if (errAddUser !== undefined && errAddUser !== "") {
-      alert("loi");
+      setOpenErr(true);
     }
   }, [errAddUser]);
+
+  const handleCloseErr = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenErr(false);
+  };
+
   return (
     <div>
       <Modal open={open} onClose={handleClose}>
@@ -147,6 +156,17 @@ export default function FormUser({ open, handleClose, setOpen }) {
           </form>
         </Box>
       </Modal>
+
+      <Snackbar
+        open={openErr}
+        autoHideDuration={6000}
+        onClose={handleCloseErr}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert onClose={handleCloseErr} severity="error" sx={{ width: "100%" }}>
+          {errAddUser}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

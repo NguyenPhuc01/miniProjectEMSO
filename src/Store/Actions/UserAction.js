@@ -1,6 +1,5 @@
 import axios from "axios";
 import {
-  ADD_USER,
   ADD_USER_FAIL,
   ADD_USER_REQUEST,
   ADD_USER_SUCCESS,
@@ -27,7 +26,6 @@ export const getAllUser = (page) => {
         type: GET_ALL_USER_SUCCESS,
         payload: response.data,
       });
-      return response.data;
     } catch (error) {
       dispatch({
         type: GET_ALL_USER_FAIL,

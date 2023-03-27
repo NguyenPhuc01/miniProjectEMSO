@@ -39,7 +39,6 @@ const UserReducer = (state = initialState, action) => {
         loadingAddUser: true,
       };
     case "ADD_USER_FAIL":
-      // console.log("err", action.payload.message);
       return {
         ...state,
         errAddUSer: action.payload.message,
