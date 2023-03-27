@@ -5,7 +5,7 @@ import {
   ADD_USER_SUCCESS,
   DELETE_USER,
   GET_ALL_USER_FAIL,
-  GET_ALL_USER_REQUESS,
+  GET_ALL_USER_REQUEST,
   GET_ALL_USER_SUCCESS,
   UPDATE_USER_FAIL,
   UPDATE_USER_REQUEST,
@@ -18,7 +18,7 @@ const baseUrl = "https://gorest.co.in/public/v2/users";
 export const getAllUser = (page) => {
   return async (dispatch) => {
     dispatch({
-      type: GET_ALL_USER_REQUESS,
+      type: GET_ALL_USER_REQUEST,
     });
     try {
       const response = await axios.get(`${baseUrl}?page=${page}&per_page=5`);

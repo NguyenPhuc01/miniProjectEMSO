@@ -37,7 +37,6 @@ export default function FormUser({ open, handleClose, setOpen }) {
   const dispatch = useDispatch();
   const isLoadingAddUser = useSelector((state) => state.User?.loadingAddUser);
   const errAddUser = useSelector((state) => state.User?.errAddUSer);
-  console.log("🚀 ~ file: FormUser.js:39 ~ FormUser ~ errAddUser:", errAddUser);
   const handleOnchange = (e) => {
     setInputs((prev) => ({
       ...prev,

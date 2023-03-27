@@ -14,7 +14,7 @@ const UserReducer = (state = initialState, action) => {
         allUser: action.payload,
         loading: false,
       };
-    case "GET_ALL_USER_REQUESS":
+    case "GET_ALL_USER_REQUEST":
       return {
         loading: true,
       };
